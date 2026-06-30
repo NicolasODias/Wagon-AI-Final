@@ -1046,7 +1046,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
     console.log('Vite loaded inside Express middleware (Development Mode).');
-  } else {
+  } else if (!process.env.VERCEL) {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
@@ -1060,4 +1060,8 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+export default app;
