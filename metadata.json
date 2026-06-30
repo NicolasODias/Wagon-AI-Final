@@ -1,0 +1,8 @@
+{
+  "name": "WAGON AI",
+  "description": "Plataforma integrada de inteligência corporativa, faturamento, CRM, comissões de canal e BI executivo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
