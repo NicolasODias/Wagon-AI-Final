@@ -25,6 +25,7 @@ import LoginPremium from './components/LoginPremium';
 import PublicInvoicePortal from './components/PublicInvoicePortal';
 import CollaboratorManager from './components/CollaboratorManager';
 import { supabase, isSupabaseConfigured, getCurrentAccessToken, fetchCurrentUserProfile } from './lib/supabaseClient';
+import { apiFetch } from './lib/api';
 import { 
   Building2, 
   Bell, 
@@ -129,7 +130,7 @@ export default function App() {
         return;
       }
 
-      fetch('/api/auth/me', {
+      apiFetch('/api/auth/me', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -511,7 +512,7 @@ export default function App() {
       throw new Error('Sessão administrativa expirada. Entre novamente.');
     }
 
-    const response = await fetch('/api/admin/create-user', {
+    const response = await apiFetch('/api/admin/create-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

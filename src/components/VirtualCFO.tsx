@@ -34,6 +34,7 @@ import {
   HelpCircle as QuestionIcon
 } from 'lucide-react';
 import { Product, Client, Order, FinancialRecord, Seller, BIInsight } from '../types';
+import { apiFetch } from '../lib/api';
 import { getCurrentAccessToken } from '../lib/supabaseClient';
 
 interface VirtualCFOProps {
@@ -289,7 +290,7 @@ export default function VirtualCFO({
 
       // API Request to backend
       const accessToken = await getCurrentAccessToken();
-      const response = await fetch('/api/gemini/insights', {
+      const response = await apiFetch('/api/gemini/insights', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

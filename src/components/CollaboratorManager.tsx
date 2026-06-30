@@ -27,6 +27,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { apiFetch } from '../lib/api';
 import { AuthUser } from '../types';
 
 interface Collaborator {
@@ -60,7 +61,7 @@ async function getAuthToken(): Promise<string> {
 // Helper para chamadas autenticadas ao backend admin
 async function adminFetch(url: string, options: RequestInit = {}): Promise<Response> {
   const token = await getAuthToken();
-  return fetch(url, {
+  return apiFetch(url, {
     ...options,
     headers: {
       'Content-Type': 'application/json',

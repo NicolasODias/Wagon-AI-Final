@@ -39,6 +39,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { Product, Client, Order, FinancialRecord, BIInsight, StockMovement, Commission } from '../types';
+import { apiFetch } from '../lib/api';
 import DashboardBIMobile from './DashboardBIMobile';
 import { generateExecutiveReportPDF, ExecutiveReportData } from '../utils/executiveReportGenerator';
 import { motion, AnimatePresence } from 'motion/react';
@@ -738,7 +739,7 @@ export default function DashboardBI({
     
     try {
       const accessToken = await getCurrentAccessToken();
-      const response = await fetch('/api/gemini/insights', {
+      const response = await apiFetch('/api/gemini/insights', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2321,4 +2322,3 @@ export default function DashboardBI({
     </div>
   );
 }
-

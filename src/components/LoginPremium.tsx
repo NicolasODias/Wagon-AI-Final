@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase, isSupabaseConfigured, getSupabaseErrorMsg, fetchCurrentUserProfile } from '../lib/supabaseClient';
+import { apiFetch } from '../lib/api';
 import { 
   Building2, 
   Mail, 
@@ -98,7 +99,7 @@ export default function LoginPremium({ onLoginSuccess, theme }: LoginPremiumProp
           onLoginSuccess(mappedUser, data.session.access_token);
         }, 600);
       } else {
-        const res = await fetch('/api/auth/login', {
+        const res = await apiFetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: sanitizedEmail, password })
@@ -144,7 +145,7 @@ export default function LoginPremium({ onLoginSuccess, theme }: LoginPremiumProp
         if (error) throw error;
         setSuccessMsg('E-mail de recuperação enviado via Supabase! Por favor, verifique sua caixa de entrada.');
       } else {
-        const res = await fetch('/api/auth/forgot-password', {
+        const res = await apiFetch('/api/auth/forgot-password', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ export default function LoginPremium({ onLoginSuccess, theme }: LoginPremiumProp
           setSuccessMsg(null);
         }, 2000);
       } else {
-        const res = await fetch('/api/auth/reset-password', {
+        const res = await apiFetch('/api/auth/reset-password', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
