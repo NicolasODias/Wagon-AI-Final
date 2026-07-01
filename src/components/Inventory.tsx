@@ -321,7 +321,7 @@ export default function Inventory({
     }
 
     const newProduct: Product = {
-      id: `prod_${Date.now()}`,
+      id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`,
       name: newName,
       sku: generatedSku,
       category: newCategory,

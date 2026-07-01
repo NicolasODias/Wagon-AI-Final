@@ -1066,11 +1066,75 @@ export default function App() {
     }
   };
 
-  const handleAddProduct = (newProduct: Product) => {
+  const handleAddProduct = async (newProduct: Product) => {
+    if (isSupabaseConfigured) {
+      try {
+        const dbRow = {
+          id: newProduct.id,
+          codigo_produto: newProduct.sku,
+          nome: newProduct.name,
+          categoria: newProduct.category,
+          marca: newProduct.brand || 'Diverso',
+          quantidade: Number(newProduct.stock) || 0,
+          valor_compra: Number(newProduct.costPrice) || 0,
+          valor_venda: Number(newProduct.sellingPrice) || 0,
+          min_stock: Number(newProduct.minStock) || 0,
+          unit: newProduct.unit || 'un',
+          corredor: newProduct.corridor || 'A-01',
+          prateleira: newProduct.shelf || 'Nível 1',
+          comissao_percentual: Number(newProduct.commissionPercent) || 2.5,
+          imposto_percentual: Number(newProduct.impostoPercent) || 15.0
+        };
+
+        const { error } = await supabase
+          .from('produtos')
+          .insert([dbRow]);
+
+        if (error) throw error;
+        await fetchProductsFromSupabase();
+      } catch (err: any) {
+        console.error('[Supabase Add Product Error]', err);
+        alert('Erro ao salvar produto no Supabase: ' + (err?.message || 'Falha desconhecida.'));
+      }
+      return;
+    }
+
     setProducts([newProduct, ...products]);
   };
 
-  const handleUpdateProduct = (updatedProduct: Product) => {
+  const handleUpdateProduct = async (updatedProduct: Product) => {
+    if (isSupabaseConfigured) {
+      try {
+        const dbRow = {
+          codigo_produto: updatedProduct.sku,
+          nome: updatedProduct.name,
+          categoria: updatedProduct.category,
+          marca: updatedProduct.brand || 'Diverso',
+          quantidade: Number(updatedProduct.stock) || 0,
+          valor_compra: Number(updatedProduct.costPrice) || 0,
+          valor_venda: Number(updatedProduct.sellingPrice) || 0,
+          min_stock: Number(updatedProduct.minStock) || 0,
+          unit: updatedProduct.unit || 'un',
+          corredor: updatedProduct.corridor || 'A-01',
+          prateleira: updatedProduct.shelf || 'Nível 1',
+          comissao_percentual: Number(updatedProduct.commissionPercent) || 2.5,
+          imposto_percentual: Number(updatedProduct.impostoPercent) || 15.0
+        };
+
+        const { error } = await supabase
+          .from('produtos')
+          .update(dbRow)
+          .eq('id', updatedProduct.id);
+
+        if (error) throw error;
+        await fetchProductsFromSupabase();
+      } catch (err: any) {
+        console.error('[Supabase Update Product Error]', err);
+        alert('Erro ao atualizar produto no Supabase: ' + (err?.message || 'Falha desconhecida.'));
+      }
+      return;
+    }
+
     setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
   };
 
